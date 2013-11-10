@@ -1,0 +1,10 @@
+[
+    "String",
+    "from",
+    "b.json",
+    {
+        "b-object": {
+            "b": true
+        }
+    }
+]

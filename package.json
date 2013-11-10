@@ -1,0 +1,37 @@
+{
+  "name": "supchik",
+  "version": "0.1.1",
+  "description": "Supchik like Borschik but with source maps support and one more thing... things.",
+  "main": "./supchik.js",
+  "bin": {
+    "supchik": "./cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/GREENpoint/supchik"
+  },
+  "scripts": {
+    "test": "node ./node_modules/.bin/mocha --reporter spec ./test/test.js"
+  },
+  "author": "Vitaliy Green",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GREENpoint/supchik/issues"
+  },
+  "keywords": [
+    "ast",
+    "supchik",
+    "borschik"
+  ],
+  "dependencies": {
+    "lodash": "~2.2.1",
+    "commander": "~2.0.0",
+    "esprima": "https://github.com/ariya/esprima/tarball/7a9e9db2eda81d157273e97383a80fa4e93c4f9b",
+    "estraverse": "~1.4.0",
+    "escodegen": "~0.0.28"
+  },
+  "devDependencies": {
+    "mocha": "~1.14.0",
+    "chai": "~1.8.1"
+  }
+}

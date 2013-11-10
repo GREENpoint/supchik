@@ -1,0 +1,12 @@
+{
+    "a-string": "Some string from a.json",
+    "a-boolean": true,
+    "a-array": [
+        100, 200,
+        300, 400,
+        500, 600
+    ],
+    "a-object": {
+        "a-include": "borschik:include:../a.json"
+    }
+}
