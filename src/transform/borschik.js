@@ -4,6 +4,13 @@ var _          = require('lodash'),
 var DEFAULT_TECH = 'txt',
     REG_EXP_INCLUDE = /^\s*borschik:include:(.*?)\s*$/,
     ATOMS = [ 'ObjectExpression', 'ArrayExpression', 'Literal' ],
+    VISITOR_KEYS = _.transform(estraverse.VisitorKeys, function(result, value, key) {
+        result[key] = _.intersection(value, [
+            'body',
+            'elements',
+            'properties'
+        ]);
+    }),
     Place = {
         INTO:    1,
         REPLACE: 2,
@@ -255,12 +262,7 @@ function transform(ast, options) {
             // var a = { /*borschilk:include:b.json*/ } ->
             // var a = { "b": "Some json from b.json." }
             if(ast.comments && node.range) {
-                _.intersection(estraverse.VisitorKeys[node.type], [
-                    'body',
-                    'elements',
-                    'properties'
-                ])
-                .forEach(function(visitorKey) {
+                VISITOR_KEYS[node.type].forEach(function(visitorKey) {
                     if(node[visitorKey] && _.isArray(node[visitorKey]) &&
                        node[visitorKey].length === 0) {
                         include(
