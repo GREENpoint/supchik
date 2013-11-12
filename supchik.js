@@ -68,14 +68,18 @@ function compile(input, output, options) {
         source: sourcePath,
         file: _file,
         techs: _techs,
-        transforms: [borschik].concat(options.transforms || [])
+        transforms: options.transforms || [borschik]
     };
 
     if(transformOptions.transforms) {
         transformOptions.transforms.forEach(function(transform) {
             if(typeof transform === 'string') {
                 try {
-                    transform = require('transform');
+                    if(transform === 'borschik') {
+                        transform = borschik;
+                    } else {
+                        transform = require(transform);
+                    }
                 } catch(e) {
                     throw new SupchikError('Couldn\'t find `' + transform + '` transform.');
                 }
