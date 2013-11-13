@@ -81,7 +81,7 @@ function compile(input, output, options) {
                         transform = require(transform);
                     }
                 } catch(e) {
-                    throw new SupchikError('Couldn\'t find `' + transform + '` transform.');
+                    throw new error.SupchikError('Couldn\'t find `' + transform + '` transform.');
                 }
             }
             ast = transform.transform(ast, transformOptions);

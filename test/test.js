@@ -8,7 +8,8 @@ var assert  = require('chai').assert;
         'complex.custom.js': {},
         'json': require('../src/techs/json'),
         'txt': require('../src/techs/txt')
-    };
+    },
+    estraverse = require('estraverse');
 
 var assertAst = function(ast) {
     assert.isObject(ast);
@@ -179,6 +180,53 @@ describe('techs', function() {
 });
 
 describe('transforms', function() {
+    describe('#transforms', function() {
+        it('should transform with custom transform', function() {
+            var CustomTransform = {
+                transform: function(ast, options) {
+                    estraverse.traverse(ast, {
+                        enter: function(node, parent) {
+                            if(node.type === 'Identifier') {
+                                node.name = 'TRANSFORM';
+                            }
+                        }
+                    });
+                    return ast;
+                }
+            };
+
+            var ast = supchik.compile('./test/sources/a.js', null, {
+                inputFormat: supchik.Format.FILE_CODE,
+                outputFormat: supchik.Format.AST,
+                transforms: [
+                    CustomTransform
+                ]
+            });
+
+            assert.propertyVal(ast.body[0].declarations[0].id, 'name', 'TRANSFORM');
+        });
+
+        it('should transform with custom transform provided as string', function() {
+            var ast = supchik.compile('./test/sources/a.js', null, {
+                inputFormat: supchik.Format.FILE_CODE,
+                outputFormat: supchik.Format.AST,
+                transforms: [
+                    './test/transform.js'
+                ]
+            });
+
+            assert.propertyVal(ast.body[0].declarations[0].id, 'name', 'TRANSFORM');
+        });
+
+        it('should throw error with unknown transform', function() {
+            assert.throws(function() {
+                supchik.compile('var a = 100;', null, {
+                    transforms: [ 'unknown-transform' ]
+                });
+            }, error.SupchikError);
+        });
+    });
+
     describe('#transforms.borschik', function() {
         it('should include a.js, b.js and c.js', function() {
             var source = './test/sources/include.js',
