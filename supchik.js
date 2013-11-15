@@ -50,12 +50,14 @@ function compile(input, output, options) {
         source = file.read(input);
         sourcePath = sourcePath || input;
         ast = techs.js.parse(source, {
-            source: sourcePath
+            source: sourcePath,
+            shared: options
         });
     } else if(options.inputFormat === Format.CODE) {
         source = input;
         ast = techs.js.parse(input, {
-            source: sourcePath
+            source: sourcePath,
+            shared: options
         });
     } else if(options.inputFormat === Format.FILE_AST) {
         ast = JSON.parse(file.read(input))
@@ -68,7 +70,8 @@ function compile(input, output, options) {
         source: sourcePath,
         file: _file,
         techs: _techs,
-        transforms: options.transforms || [borschik]
+        transforms: options.transforms || [borschik],
+        shared: options
     };
 
     if(transformOptions.transforms) {
@@ -90,7 +93,8 @@ function compile(input, output, options) {
 
     if(options.sourceMap) {
         sourceMap = _techs.js.generateSourceMap(ast, {
-            prettyPrint: options.prettyPrint
+            prettyPrint: options.prettyPrint,
+            shared: options
         });
         if(options.outputFormat === Format.FILE_CODE ||
            options.outputFormat === Format.FILE_AST) {
@@ -102,7 +106,8 @@ function compile(input, output, options) {
        options.outputFormat === Format.CODE) {
         compiledSource = _techs.js.generate(ast, {
             prettyPrint: options.prettyPrint,
-            sourceMap: options.sourceMap
+            sourceMap: options.sourceMap,
+            shared: options
         });
     }
 

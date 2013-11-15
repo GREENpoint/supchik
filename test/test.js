@@ -379,3 +379,67 @@ describe('sourcemap', function() {
     });
 });
 
+describe('api', function() {
+    it('should share options with techs', function() {
+
+        var accessCount = 0;
+
+        var MyTechJs = {
+            parse: function(source, options) {
+                assert.propertyVal(options.shared, 'mySharedOption', true);
+                accessCount++;
+                return {
+                    'type': 'Program',
+                    'body': []
+                };
+            },
+
+            generate: function(ast, options) {
+                assert.propertyVal(options.shared, 'mySharedOption', true);
+                accessCount++;
+                return '';
+            },
+
+            generateSourceMap: function(ast, options) {
+                assert.propertyVal(options.shared, 'mySharedOption', true);
+                accessCount++;
+                return '';
+            }
+        };
+
+        supchik.compile('./test/sources/include.js', null, {
+            inputFormat: supchik.Format.FILE_CODE,
+            sourceMap: 'output.js.map',
+            techs: {
+                js: MyTechJs
+            },
+            mySharedOption: true
+        });
+
+        assert.equal(accessCount, 3);
+
+    });
+
+    it('should share options with transforms', function() {
+
+        var accessCount = 0;
+
+        var MyTransform = {
+            transform: function(ast, options) {
+                assert.propertyVal(options.shared, 'mySharedOption', true);
+                accessCount++;
+                return ast;
+            }
+        };
+
+        supchik.compile('./test/sources/include.js', null, {
+            inputFormat: supchik.Format.FILE_CODE,
+            transforms: [ MyTransform ],
+            mySharedOption: true
+        });
+
+        assert.equal(accessCount, 1);
+
+    });
+});
+

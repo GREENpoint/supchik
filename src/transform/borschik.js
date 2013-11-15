@@ -138,7 +138,10 @@ function include(file, place, options) {
         );
 
         // Render file's AST tree.
-        ast = tech.parse(content, { source: file.path });
+        ast = tech.parse(content, {
+            source: file.path,
+            shared: options.shared
+        });
 
         // Transform AST using Borschik transform.
         ast = transform(

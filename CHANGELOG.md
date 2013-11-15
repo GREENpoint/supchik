@@ -1,3 +1,6 @@
+## 0.1.6
+* Share compile options with techs and transforms.
+
 ## 0.1.4
 * This changelog starts.
 
