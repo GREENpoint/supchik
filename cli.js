@@ -5,7 +5,7 @@ var supchik   = require('./supchik'),
     path      = require('path');
 
 commander
-    .version('0.1.7')
+    .version(require('./package.json').version)
     .usage('<file ...> [options]')
     .option('-o, --output', 'Specify output file.')
     .option('--input-format <format>', 'Specify input format: `code` or `ast`. Default: `code`.')

@@ -1,3 +1,6 @@
+## 0.1.8
+* Make command line version always synced with package.json version.
+
 ## 0.1.7
 * A little documentation fix.
 
