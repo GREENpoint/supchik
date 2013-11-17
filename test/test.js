@@ -380,6 +380,40 @@ describe('sourcemap', function() {
 });
 
 describe('api', function() {
+    it('should output all required stuff', function() {
+
+        var output = {};
+
+        supchik.compile('./test/sources/include.js', output, {
+            inputFormat: supchik.Format.FILE_CODE
+        });
+
+        assert.property(output, 'source');
+        assert.isString(output.source);
+        assert.property(output, 'ast');
+        assert.isObject(output.ast);
+        assertAst(output.ast);
+        assert.property(output, 'compiledSource');
+        assert.isString(output.compiledSource);
+
+    });
+
+    it('should output source despite syntax error', function() {
+
+        var output = {};
+
+        try {
+            supchik.compile('./test/sources/include-syntax-error.js', output, {
+                inputFormat: supchik.Format.FILE_CODE
+            });
+        } catch(e) {
+        }
+
+        assert.property(output, 'source');
+        assert.isString(output.source);
+
+    });
+
     it('should share options with techs', function() {
 
         var accessCount = 0;

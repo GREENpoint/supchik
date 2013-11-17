@@ -49,12 +49,22 @@ function compile(input, output, options) {
     if(options.inputFormat === Format.FILE_CODE) {
         source = file.read(input);
         sourcePath = sourcePath || input;
+
+        if(output && _.isObject(output)) {
+            _.extend(output, { source: source });
+        }
+
         ast = techs.js.parse(source, {
             source: sourcePath,
             shared: options
         });
     } else if(options.inputFormat === Format.CODE) {
         source = input;
+
+        if(output && _.isObject(output)) {
+            _.extend(output, { source: source });
+        }
+
         ast = techs.js.parse(input, {
             source: sourcePath,
             shared: options
@@ -91,35 +101,41 @@ function compile(input, output, options) {
         });
     }
 
+    if(output && _.isObject(output)) {
+        _.extend(output, { ast: ast });
+    }
+
     if(options.sourceMap) {
+
         sourceMap = _techs.js.generateSourceMap(ast, {
             prettyPrint: options.prettyPrint,
             shared: options
         });
+
+        if(output && _.isObject(output)) {
+            _.extend(output, { sourceMap: sourceMap });
+        }
+
         if(options.outputFormat === Format.FILE_CODE ||
            options.outputFormat === Format.FILE_AST) {
             _file.write(options.sourceMap, sourceMap);
         }
+
     }
 
     if(options.outputFormat === Format.FILE_CODE ||
        options.outputFormat === Format.CODE) {
+
         compiledSource = _techs.js.generate(ast, {
             prettyPrint: options.prettyPrint,
             sourceMap: options.sourceMap,
             shared: options
         });
-    }
 
-    var outputObject = {
-        source: source,
-        ast: ast,
-        sourceMap: sourceMap,
-        compiledSource: compiledSource
-    };
+        if(output && _.isObject(output)) {
+            _.extend(output, { compiledSource: compiledSource });
+        }
 
-    if(output && _.isObject(output)) {
-        _.extend(output, outputObject);
     }
 
     switch(options.outputFormat) {

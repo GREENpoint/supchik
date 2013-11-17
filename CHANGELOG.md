@@ -1,3 +1,6 @@
+## 0.1.9
+* Output file source when parsing fails.
+
 ## 0.1.8
 * Make command line version always synced with package.json version.
 
