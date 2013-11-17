@@ -46,7 +46,7 @@ function generate(ast, options) {
             }
         );
 
-        if(options.sourceMap) {
+        if(options.sourceMap && _.isString(options.sourceMap)) {
             result += '\n//# sourceMappingURL=' + options.sourceMap;
         }
     } catch(e) {

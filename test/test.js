@@ -377,6 +377,21 @@ describe('sourcemap', function() {
             new RegExp('\/\/\# sourceMappingURL\=' + sourceMapUrl.replace('.', '\.'))
         );
     });
+
+    it('should not attach sourcemap\'s url if source map file name is not specified', function() {
+        var source = './test/sources/include.js',
+             output = {};
+
+        var generatedSourced = supchik.compile(source, output, {
+            inputFormat: supchik.Format.FILE_CODE,
+            sourceMap: true
+        });
+
+        var lines = generatedSourced.match(/[^\r\n]+/g),
+            lastLine = lines[lines.length-1];
+
+        assert.ok(lastLine.indexOf('//#sourceMappingURL') === -1);
+    });
 });
 
 describe('api', function() {

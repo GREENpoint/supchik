@@ -1,3 +1,6 @@
+## 0.2.0
+* Allow do not provide source map name.
+
 ## 0.1.9
 * Output file source when parsing fails.
 
