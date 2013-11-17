@@ -105,12 +105,31 @@ function compile(input, output, options) {
         _.extend(output, { ast: ast });
     }
 
+    var requiredCompileSource =
+        options.outputFormat === Format.FILE_CODE ||
+        options.outputFormat === Format.CODE;
+
     if(options.sourceMap) {
 
-        sourceMap = _techs.js.generateSourceMap(ast, {
-            prettyPrint: options.prettyPrint,
-            shared: options
-        });
+        if(requiredCompileSource) {
+
+            var codeAndSourceMap = _techs.js.generateWithSourceMap(ast, {
+                prettyPrint: options.prettyPrint,
+                sourceMap: options.sourceMap,
+                shared: options
+            });
+
+            compiledSource = codeAndSourceMap.code;
+            sourceMap      = codeAndSourceMap.map;
+
+        } else {
+
+            sourceMap = _techs.js.generateSourceMap(ast, {
+                prettyPrint: options.prettyPrint,
+                shared: options
+            });
+
+        }
 
         if(output && _.isObject(output)) {
             _.extend(output, { sourceMap: sourceMap });
@@ -123,14 +142,15 @@ function compile(input, output, options) {
 
     }
 
-    if(options.outputFormat === Format.FILE_CODE ||
-       options.outputFormat === Format.CODE) {
+    if(requiredCompileSource) {
 
-        compiledSource = _techs.js.generate(ast, {
-            prettyPrint: options.prettyPrint,
-            sourceMap: options.sourceMap,
-            shared: options
-        });
+        if(_.isUndefined(compiledSource)) {
+            compiledSource = _techs.js.generate(ast, {
+                prettyPrint: options.prettyPrint,
+                sourceMap: options.sourceMap,
+                shared: options
+            });
+        }
 
         if(output && _.isObject(output)) {
             _.extend(output, { compiledSource: compiledSource });

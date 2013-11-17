@@ -35,21 +35,29 @@ function parse(input, options) {
     return ast;
 }
 
+function attachSourceMap(result, sourceMap) {
+    if(sourceMap && _.isString(sourceMap)) {
+        result += '\n//# sourceMappingURL=' + sourceMap;
+    }
+    return result;
+}
+
 function generate(ast, options) {
     var result;
     options = options || {};
 
     try {
+
         result = escodegen.generate(
             ast, {
                 format: options.prettyPrint ? {} : escodegen.FORMAT_MINIFY
             }
         );
 
-        if(options.sourceMap && _.isString(options.sourceMap)) {
-            result += '\n//# sourceMappingURL=' + options.sourceMap;
-        }
+        result = attachSourceMap(result, options.sourceMap);
+
     } catch(e) {
+
         console.log(' --- ast dump --- ');
         console.log(util.inspect(ast, { depth: null }));
         console.log(' --- ast dump --- ');
@@ -58,6 +66,7 @@ function generate(ast, options) {
         ).extend({
             description: e.message
         });
+
     }
 
     return result;
@@ -82,8 +91,40 @@ function generateSourceMap(ast, options) {
     }
 }
 
+function generateWithSourceMap(ast, options) {
+    var result;
+    options = options || {};
+
+    try {
+
+        result = escodegen.generate(
+            ast, {
+                format: options.prettyPrint ? {} : escodegen.FORMAT_MINIFY,
+                sourceMap: true,
+                sourceMapWithCode: true
+            }
+        );
+
+        result.map = result.map.toString();
+
+        result.code = attachSourceMap(result.code, options.sourceMap);
+
+    } catch(e) {
+
+        throw new error.GenerateError(
+            'Couldn\'t generate source with map from AST: ' + e.message
+        ).extend({
+            description: e.message
+        });
+
+    }
+
+    return result;
+}
+
 module.exports = {
     parse: parse,
     generate: generate,
-    generateSourceMap: generateSourceMap
+    generateSourceMap: generateSourceMap,
+    generateWithSourceMap: generateWithSourceMap
 };

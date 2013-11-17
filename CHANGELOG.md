@@ -1,3 +1,6 @@
+## 0.2.1
+* Perfomance improvement when generated both code and source map.
+
 ## 0.2.0
 * Allow do not provide source map name.
 

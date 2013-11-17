@@ -1,6 +1,6 @@
 {
   "name": "supchik",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Supchik like Borschik but with source maps support and one more thing... things.",
   "main": "./supchik.js",
   "bin": {

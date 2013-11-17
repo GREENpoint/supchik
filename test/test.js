@@ -429,7 +429,7 @@ describe('api', function() {
 
     });
 
-    it('should share options with techs', function() {
+    it('should share options with techs by 2 steps', function() {
 
         var accessCount = 0;
 
@@ -453,6 +453,12 @@ describe('api', function() {
                 assert.propertyVal(options.shared, 'mySharedOption', true);
                 accessCount++;
                 return '';
+            },
+
+            generateWithSourceMap: function(ast, options) {
+                assert.propertyVal(options.shared, 'mySharedOption', true);
+                accessCount++;
+                return { code: '', map: '' };
             }
         };
 
@@ -465,7 +471,7 @@ describe('api', function() {
             mySharedOption: true
         });
 
-        assert.equal(accessCount, 3);
+        assert.equal(accessCount, 2);
 
     });
 
