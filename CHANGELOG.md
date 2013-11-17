@@ -1,3 +1,6 @@
+## 0.1.7
+* A little documentation fix.
+
 ## 0.1.6
 * Share compile options with techs and transforms.
 

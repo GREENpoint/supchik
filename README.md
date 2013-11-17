@@ -129,7 +129,7 @@ Install: `npm install supchik`
     output.source; // file source string
     output.ast; // generated AST
     output.sourceMap; // source map string
-    output.generatedSource; // generated source string
+    output.compiledSource; // compiled source string
 
     // Supported input formats
     supchik.Format.FILE_CODE; // read js file
