@@ -1,3 +1,6 @@
+## 0.2.2
+* Fix custom techs usage.
+
 ## 0.2.1
 * Perfomance improvement when generated both code and source map.
 

@@ -43,7 +43,7 @@ function compile(input, output, options) {
     }
 
     _file  = options.file || file;
-    _techs = _.extend(techs, options.techs || {});
+    _techs = _.extend(_.clone(techs), options.techs || {});
     sourcePath = options.source || null;
 
     if(options.inputFormat === Format.FILE_CODE) {
@@ -54,7 +54,7 @@ function compile(input, output, options) {
             _.extend(output, { source: source });
         }
 
-        ast = techs.js.parse(source, {
+        ast = _techs.js.parse(source, {
             source: sourcePath,
             shared: options
         });
@@ -65,7 +65,7 @@ function compile(input, output, options) {
             _.extend(output, { source: source });
         }
 
-        ast = techs.js.parse(input, {
+        ast = _techs.js.parse(input, {
             source: sourcePath,
             shared: options
         });

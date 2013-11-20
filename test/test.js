@@ -429,13 +429,12 @@ describe('api', function() {
 
     });
 
-    it('should share options with techs by 2 steps', function() {
+    it('should use custom tech', function() {
 
         var accessCount = 0;
 
         var MyTechJs = {
             parse: function(source, options) {
-                assert.propertyVal(options.shared, 'mySharedOption', true);
                 accessCount++;
                 return {
                     'type': 'Program',
@@ -444,20 +443,56 @@ describe('api', function() {
             },
 
             generate: function(ast, options) {
-                assert.propertyVal(options.shared, 'mySharedOption', true);
                 accessCount++;
                 return '';
             },
 
             generateSourceMap: function(ast, options) {
-                assert.propertyVal(options.shared, 'mySharedOption', true);
                 accessCount++;
                 return '';
             },
 
             generateWithSourceMap: function(ast, options) {
-                assert.propertyVal(options.shared, 'mySharedOption', true);
                 accessCount++;
+                return { code: '', map: '' };
+            }
+        };
+
+        supchik.compile('./test/sources/include.js', null, {
+            inputFormat: supchik.Format.FILE_CODE,
+            sourceMap: 'output.js.map',
+            techs: {
+                js: MyTechJs
+            }
+        });
+
+        assert.equal(accessCount, 2);
+
+    });
+
+    it('should share options with techs by 2 steps', function() {
+
+        var MyTechJs = {
+            parse: function(source, options) {
+                assert.propertyVal(options.shared, 'mySharedOption', true);
+                return {
+                    'type': 'Program',
+                    'body': []
+                };
+            },
+
+            generate: function(ast, options) {
+                assert.propertyVal(options.shared, 'mySharedOption', true);
+                return '';
+            },
+
+            generateSourceMap: function(ast, options) {
+                assert.propertyVal(options.shared, 'mySharedOption', true);
+                return '';
+            },
+
+            generateWithSourceMap: function(ast, options) {
+                assert.propertyVal(options.shared, 'mySharedOption', true);
                 return { code: '', map: '' };
             }
         };
@@ -470,8 +505,6 @@ describe('api', function() {
             },
             mySharedOption: true
         });
-
-        assert.equal(accessCount, 2);
 
     });
 
