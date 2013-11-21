@@ -2,6 +2,7 @@ var assert  = require('chai').assert;
     supchik = require('../supchik'),
     file    = require('../src/file');
     error   = require('../src/error'),
+    wrench  = require('wrench'),
     techs = {
         'js': require('../src/techs/js'),
         'custom.js': {},
@@ -9,7 +10,8 @@ var assert  = require('chai').assert;
         'json': require('../src/techs/json'),
         'txt': require('../src/techs/txt')
     },
-    estraverse = require('estraverse');
+    estraverse = require('estraverse'),
+    fs = require('fs');
 
 var assertAst = function(ast) {
     assert.isObject(ast);
@@ -29,6 +31,24 @@ describe('file', function() {
             assert.throws(function() {
                 file.read('./test/sources/not-exists.js');
             }, error.ReadError);
+        });
+    });
+
+    describe('#file.write', function() {
+        it('should write file', function() {
+
+            var artifactsPath = './test/.artifacts';
+
+            if(fs.existsSync(artifactsPath)) {
+                wrench.rmdirSyncRecursive(artifactsPath, true);
+            }
+
+            wrench.mkdirSyncRecursive(artifactsPath);
+
+            assert.doesNotThrow(function() {
+                file.write(artifactsPath + '/output.js', 'var a = 100;');
+            });
+
         });
     });
 

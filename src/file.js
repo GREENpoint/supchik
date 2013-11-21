@@ -52,9 +52,7 @@ function read(input) {
 
 function write(output, data) {
     try {
-        return fs.writeFileSync(output, data, {
-            encoding: 'utf-8'
-        });
+        return fs.writeFileSync(output, data, 'utf8');
     } catch(e) {
         throw new error.WriteError('Couldn\'t write file "' + output + '": ' + e.message).extend({
             source: output

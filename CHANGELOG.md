@@ -1,3 +1,6 @@
+## 0.2.3
+* Node.js 0.8.* fix file.write.
+
 ## 0.2.2
 * Fix custom techs usage.
 

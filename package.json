@@ -1,6 +1,6 @@
 {
   "name": "supchik",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Supchik like Borschik but with source maps support and one more thing... things.",
   "main": "./supchik.js",
   "bin": {
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "mocha": "~1.14.0",
-    "chai": "~1.8.1"
+    "chai": "~1.8.1",
+    "wrench": "~1.5.4"
   }
 }
