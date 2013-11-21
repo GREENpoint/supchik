@@ -6,6 +6,9 @@
   "bin": {
     "supchik": "./cli.js"
   },
+  "engines": {
+    "node": ">=0.8.0"
+  },
   "repository": {
     "type": "git",
     "url": "http://github.com/GREENpoint/supchik"
