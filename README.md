@@ -115,9 +115,9 @@ Install: `npm install supchik`
     var output = {};
     supchik.compile(source, output, {
         sourceMap: 'output.js.map',
-        prettyPrint: true // pretty print output
+        prettyPrint: true, // pretty print output
         // additional AST transformation stages
-        transforms: [ '/path/to/my/transform/module' ]
+        transforms: [ '/path/to/my/transform/module' ],
         techs: { // specify techs
             js: require('/path/to/my/js/tech'),
             txt: MyTxtTech,
@@ -292,7 +292,7 @@ Techs role in Supchik to generate [Mozilla AST tree](https://developer.mozilla.o
 <a name="contentsTransformations"/>
 ## Understanding transformations
 
-Supchik's transformation allow to provide your custom AST transformation stage. Transfromation must export `transfrom` method that accepts `Mozilla AST tree` and returns transformed `Mozilla AST Tree`. Basic example:
+Supchik's transformation allow to provide your custom AST transformation stage. Transformation must export `transfrom` method that accepts `Mozilla AST tree` and returns transformed `Mozilla AST Tree`. Basic example:
 
 ```javascript
     var estraverse = require('estraverse');
@@ -317,7 +317,7 @@ Supchik's transformation allow to provide your custom AST transformation stage. 
     }
 
     module.exports = {
-        transfrom: transfrom
+        transform: transfoem
     };
 ```
 
@@ -333,7 +333,7 @@ Supchik's transformation allow to provide your custom AST transformation stage. 
     ...
 
     var MyTrasfromModule = {
-        transfrom = function(ast, options) { ... }
+        transfrom: function(ast, options) { ... }
     };
 
     supchik.compile(source, null, {
