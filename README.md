@@ -317,7 +317,7 @@ Supchik's transformation allow to provide your custom AST transformation stage. 
     }
 
     module.exports = {
-        transform: transfoem
+        transform: transform
     };
 ```
 
@@ -332,12 +332,12 @@ Supchik's transformation allow to provide your custom AST transformation stage. 
 ```javascript
     ...
 
-    var MyTrasfromModule = {
-        transfrom: function(ast, options) { ... }
+    var MyTransformModule = {
+        transform: function(ast, options) { ... }
     };
 
     supchik.compile(source, null, {
-        transforms: [ '/path/to/my/transform/module', MyTrasfromModule ]
+        transforms: [ '/path/to/my/transform/module', MyTransformModule ]
     });
 
     ...
@@ -346,7 +346,7 @@ Supchik's transformation allow to provide your custom AST transformation stage. 
 <a name="contentsTests"/>
 ## Tests
 
-Supchik's uses [Mocha framework](http://visionmedia.github.io/mocha/) for tests. Run tests: `npm test`.
+Supchik uses [Mocha framework](http://visionmedia.github.io/mocha/) for tests. Run tests: `npm test`.
 
 <a name="contentsContribution"/>
 ## Contribution guide
