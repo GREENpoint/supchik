@@ -35,6 +35,10 @@ function dirname(file) {
     return path.dirname(file);
 }
 
+function realpath(file) {
+    return fs.realpathSync(file);
+}
+
 function read(input) {
     var result;
     try {
@@ -64,6 +68,7 @@ module.exports = {
     tech: tech,
     resolve: resolve,
     dirname: dirname,
+    realpath: realpath,
     read: read,
     write: write
 };

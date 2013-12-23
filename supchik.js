@@ -20,6 +20,7 @@ function compile(input, output, options) {
     var ast,
         source,
         sourcePath,
+        realPath,
         sourceMap,
         compiledSource,
         transformOptions,
@@ -47,8 +48,9 @@ function compile(input, output, options) {
     sourcePath = options.source || null;
 
     if(options.inputFormat === Format.FILE_CODE) {
-        source = file.read(input);
+        source = _file.read(input);
         sourcePath = sourcePath || input;
+        realPath = _file.realpath(input);
 
         if(output && _.isObject(output)) {
             _.extend(output, { source: source });
@@ -70,7 +72,7 @@ function compile(input, output, options) {
             shared: options
         });
     } else if(options.inputFormat === Format.FILE_AST) {
-        ast = JSON.parse(file.read(input))
+        ast = JSON.parse(_file.read(input))
     } else  {
         ast = input;
     }
@@ -83,6 +85,10 @@ function compile(input, output, options) {
         transforms: options.transforms || [borschik],
         shared: options
     };
+
+    if(realPath) {
+        transformOptions.realPath = [ _file.dirname(realPath) ];
+    }
 
     if(transformOptions.transforms) {
         transformOptions.transforms.forEach(function(transform) {

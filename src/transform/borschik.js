@@ -114,6 +114,7 @@ function include(file, place, options) {
         tech,
         content,
         sourcePath,
+        transformOptions,
         ownerIndex, owner;
 
     if(!_.isArray(file)) {
@@ -133,7 +134,7 @@ function include(file, place, options) {
         // parent file and reads file content
         content = options.file.read(
             options.file.resolve(
-                options.sourcePath.concat([file.path])
+                (options.realPath || options.sourcePath).concat([file.path])
             )
         );
 
@@ -143,15 +144,24 @@ function include(file, place, options) {
             shared: options.shared
         });
 
-        // Transform AST using Borschik transform.
-        ast = transform(
-            ast,
-            _.extend(_.clone(options), {
-                sourcePath: options.sourcePath.concat(
+        // Generate transform options.
+        transformOptions = _.extend(_.clone(options), {
+            sourcePath: options.sourcePath.concat(
+                [options.file.dirname(file.path)]
+            )
+        });
+
+        // Solve realpath for transform options.
+        if(options.realPath) {
+            transformOptions = _.extend(transformOptions, {
+                realPath: options.realPath.concat(
                     [options.file.dirname(file.path)]
                 )
-            })
-        );
+            });
+        }
+
+        // Transform AST using Borschik transform.
+        ast = transform(ast, transformOptions);
 
         if(place.where === Place.REPLACE) {
 

@@ -1,3 +1,6 @@
+## 0.2.4
+* Fix path resolving.
+
 ## 0.2.3
 * Node.js 0.8.* fix file.write.
 
