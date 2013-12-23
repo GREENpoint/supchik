@@ -167,7 +167,7 @@ function include(file, place, options) {
 
             // Allow replace ObjectExpression,
             // ArrayExpression and Literal to
-            // ObjectExpression, ArrowExpression,
+            // ObjectExpression, ArrayExpression,
             // Literal only.
             if(!_.contains(ATOMS, options.path[0].type) ||
                !_.contains(ATOMS, ast.body[0].type)) {
