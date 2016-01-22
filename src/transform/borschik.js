@@ -101,7 +101,7 @@ function assertValidity(nodes, atProperty, ofNode, options) {
         // Do not allow lend ObjectExpression,
         // ArrayExpression and Literal
         nodes.forEach(function(node) {
-            if(_.contains(ATOMS, node.type)) {
+            if(_.includes(ATOMS, node.type)) {
                 throwValidityError(options.source, options.file);
             }
         });
@@ -169,8 +169,8 @@ function include(file, place, options) {
             // ArrayExpression and Literal to
             // ObjectExpression, ArrayExpression,
             // Literal only.
-            if(!_.contains(ATOMS, options.path[0].type) ||
-               !_.contains(ATOMS, ast.body[0].type)) {
+            if(!_.includes(ATOMS, options.path[0].type) ||
+               !_.includes(ATOMS, ast.body[0].type)) {
                 throwValidityError(options.source, file);
             }
 
@@ -282,7 +282,7 @@ function transform(ast, options) {
                             includes(ast.comments, node.range), {
                                 key: visitorKey,
                                 where: // ObjectExpression, ArrayExpression, Literal must be replaced.
-                                    _.contains(ATOMS, node.type)
+                                    _.includes(ATOMS, node.type)
                                     ? Place.REPLACE : Place.INTO
                             },
                             options
