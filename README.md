@@ -346,7 +346,7 @@ Supchik's transformation allow to provide your custom AST transformation stage. 
 <a name="contentsTests"/>
 ## Tests
 
-Supchik uses [Mocha framework](http://visionmedia.github.io/mocha/) for tests. Run tests: `npm test`.
+Supchik uses [Mocha framework](http://mochajs.org/) for tests. Run tests: `npm test`.
 
 <a name="contentsContribution"/>
 ## Contribution guide
